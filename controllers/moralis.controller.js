@@ -24,14 +24,25 @@ exports.getAcountBalance = async (req, res) => {
 
 exports.getTransacrions = async (req, res) => {
   const address = req.body.address;
- 
-
   try {
     
     const response = await Moralis.EvmApi.transaction.getWalletTransactions({
       address,
       chain,
     });
+    res.json(response);
+  } catch (error) {
+    res.status(500);
+    res.json({ error: error.message });
+  }
+};
+
+
+exports.getERCTokensByMarketCap = async (req, res) => {
+ 
+  try {
+    
+    const response = await Moralis.EvmApi.marketData.getTopERC20TokensByMarketCap({});
     res.json(response);
   } catch (error) {
     res.status(500);
