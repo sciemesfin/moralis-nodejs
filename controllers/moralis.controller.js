@@ -7,7 +7,6 @@ const chain = EvmChain.SEPOLIA;
 // Sample controller with a simple function
 exports.getAcountBalance = async (req, res) => {
   const address = req.body.address;
-  
 
   try {
     const nativeBalance = await Moralis.EvmApi.balance.getNativeBalance({
@@ -25,7 +24,6 @@ exports.getAcountBalance = async (req, res) => {
 exports.getTransacrions = async (req, res) => {
   const address = req.body.address;
   try {
-    
     const response = await Moralis.EvmApi.transaction.getWalletTransactions({
       address,
       chain,
@@ -37,12 +35,18 @@ exports.getTransacrions = async (req, res) => {
   }
 };
 
-
-exports.getERCTokensByMarketCap = async (req, res) => {
- 
+exports.getChainActivities = async (req, res) => {
+  const chains = [
+    EvmChain.ETHEREUM,
+    EvmChain.BSC,
+    EvmChain.POLYGON,
+  ];
+  const address = req.body.address;
   try {
-    
-    const response = await Moralis.EvmApi.marketData.getTopERC20TokensByMarketCap();
+    const response = await Moralis.EvmApi.wallets.getWalletActiveChains({
+      address,
+      chains,
+    });
     res.json(response);
   } catch (error) {
     res.status(500);
@@ -50,12 +54,10 @@ exports.getERCTokensByMarketCap = async (req, res) => {
   }
 };
 
-
 exports.getNFTs = async (req, res) => {
   const address = req.body.address;
   try {
-    
-    const response =await Moralis.EvmApi.nft.getWalletNFTCollections({
+    const response = await Moralis.EvmApi.nft.getWalletNFTCollections({
       address,
       chain,
     });
