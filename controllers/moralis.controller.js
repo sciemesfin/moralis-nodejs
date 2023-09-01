@@ -42,7 +42,23 @@ exports.getERCTokensByMarketCap = async (req, res) => {
  
   try {
     
-    const response = await Moralis.EvmApi.marketData.getTopERC20TokensByMarketCap({});
+    const response = await Moralis.EvmApi.marketData.getTopERC20TokensByMarketCap();
+    res.json(response);
+  } catch (error) {
+    res.status(500);
+    res.json({ error: error.message });
+  }
+};
+
+
+exports.getNFTs = async (req, res) => {
+  const address = req.body.address;
+  try {
+    
+    const response =await Moralis.EvmApi.nft.getWalletNFTCollections({
+      address,
+      chain,
+    });
     res.json(response);
   } catch (error) {
     res.status(500);
